@@ -18,7 +18,7 @@ public class todolistPage {
     @FindBy(xpath = "//a[@class='button is-small is-white'][contains(text(),'Todolist liên kết')]")
     private WebElement navigationtodolist;
 
-    @FindBy(xpath = "//div[@class='control']//a[@class='icon has-text-link']")
+    @FindBy(xpath = "//a[@class='icon has-text-link is-medium']")
     private WebElement btnAddTodolist;
 
     @FindBy(id = "task_todo")
@@ -69,9 +69,9 @@ public class todolistPage {
 
             Thread.sleep(1000);
             endday.sendKeys(end);
-            
+
             Thread.sleep(1000);
-            
+
             btnSave.click();
         } catch (Exception e) {
             e.printStackTrace();

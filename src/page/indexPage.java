@@ -189,7 +189,7 @@ public class indexPage {
             Thread.sleep(2000);
             navigation_works.click();
             waitForPageLoaded();
-            choseWorks("fWorks: Prepare for Testing Mobile");
+            choseWorks("fWorks: Prepare for Testing");
             waitForPageLoaded();
         } catch (Exception e) {
             e.printStackTrace();
@@ -203,7 +203,7 @@ public class indexPage {
             Thread.sleep(2000);
             navigation_works.click();
             waitForPageLoaded();
-            choseWorks("fWorks: Prepare for Testing Mobile");
+            choseWorks("fWorks: Prepare for Testing");
             waitForPageLoaded();
             mnuTask.click();
             waitForPageLoaded();

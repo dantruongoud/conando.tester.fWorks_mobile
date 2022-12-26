@@ -2,6 +2,7 @@ package testcase.Plans;
 
 import org.openqa.selenium.WebDriver;
 
+import excelHelpers.excelhelpers;
 import page.indexPage;
 import page.Plans.createPlansPage;
 import page.Plans.editPLansPage;
@@ -11,28 +12,25 @@ public class editPlansTest {
     public static void main(String[] args) {
         try {
 
-            createPlansTest[] data = {
-                    new createPlansTest(1, "", "Đây là dự án cực kỳ quan trọng"),
-                    new createPlansTest(2, "fWorks: Prepare for Testing Mobile", "Đây là dự án cực kỳ quan trọng"),
-            };
-
             baseSetup init = new baseSetup();
             WebDriver driver = init.initChromeDriver();
             indexPage index = new indexPage(driver);
             createPlansPage createPlans = new createPlansPage(driver);
             editPLansPage editPlans = new editPLansPage(driver);
+            excelhelpers excel = new excelhelpers();
+            excel.setExcelSheet("Create Plan");
 
             index.navigationTo_Plan();
             editPlans.btnEditPlans.click();
             Thread.sleep(2000);
             createPlans.txtClear();
 
-            for (int i = 0; i < data.length; i++) {
+            for (int i = 2; i < 4; i++) {
                 System.out.println("====================");
 
-                System.out.println("Testcase: " + data[i].testcase);
-                createPlans.txtTitlePlans.sendKeys(data[i].title);
-                createPlans.txaDescription.sendKeys(data[i].description);
+                System.out.println("Testcase: " + excel.getCellData("TCID", i));
+                createPlans.txtTitlePlans.sendKeys(excel.getCellData("title", i));
+                createPlans.txaDescription.sendKeys(excel.getCellData("description", i));
                 index.btnComponent.click();
                 Thread.sleep(1000);
 
@@ -44,7 +42,6 @@ public class editPlansTest {
                         createPlans.txtClear();
                         break;
                     default:
-                        noti = index.tagline();
                         if (noti.equals("Đã cập nhật thông tin của dự án.")) {
                             System.out.println(noti);
                             index.passed();

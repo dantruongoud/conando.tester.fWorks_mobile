@@ -2,46 +2,34 @@ package testcase.Works;
 
 import org.openqa.selenium.WebDriver;
 
+import excelHelpers.excelhelpers;
 import page.indexPage;
 import page.Works.subWorksPage;
 import page.Works.worksPage;
 import setup.baseSetup;
 
 public class subWorksTest {
-    int testcase;
-    String title, description;
-
-    public subWorksTest(int testcase, String title, String description) {
-        this.testcase = testcase;
-        this.title = title;
-        this.description = description;
-    }
 
     public static void main(String[] args) {
         try {
-
-            subWorksTest[] data = {
-                    new subWorksTest(1, "", "Đây là công việc phụ vô cùng quan trọng"),
-                    new subWorksTest(2, "Công việc phụ số 1", "Đây là công việc phụ vô cùng quan trọng"),
-                    new subWorksTest(3, "Công việc phụ số 1", "Đây là công việc phụ vô cùng quan trọng"),
-                    new subWorksTest(4, "Công việc phụ số 1", "Đây là công việc phụ vô cùng quan trọng"),
-            };
 
             baseSetup init = new baseSetup();
             WebDriver driver = init.initChromeDriver();
             indexPage index = new indexPage(driver);
             subWorksPage subWorks = new subWorksPage(driver);
             worksPage works = new worksPage(driver);
+            excelhelpers excel = new excelhelpers();
+            excel.setExcelSheet("subWorks");
 
             index.navigationTo_Task();
 
             subWorks.navigationTo_SubWorks();
 
-            for (int i = 0; i < data.length; i++) {
+            for (int i = 1; i < 4; i++) {
                 System.out.println("====================");
 
-                System.out.println("Testcase: " + data[i].testcase);
-                subWorks.setText(data[i].title, data[i].description);
+                System.out.println("Testcase: " + excel.getCellData("TCID", i));
+                subWorks.setText(excel.getCellData("title", i), excel.getCellData("description", i));
                 Thread.sleep(1000);
 
                 String noti = index.tagline();
@@ -50,11 +38,11 @@ public class subWorksTest {
                         index.passed();
                         subWorks.clear();
                         break;
-                    case "Nhập thời gian thực hiện của công việc.":
-                        subWorks.choseTime();
-                        index.passed();
-                        subWorks.clear();
-                        break;
+                    // case "Nhập thời gian thực hiện của công việc.":
+                    // subWorks.choseTime();
+                    // index.passed();
+                    // subWorks.clear();
+                    // break;
                     case "Chọn người tham gia của công việc.":
                         subWorks.btnAddUser.click();
                         works.choseMember("truong");

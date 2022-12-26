@@ -33,13 +33,17 @@ public class TaskPage {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    } 
+    }
 
     public void navigationFormTask() {
         try {
-            btnTask.click();
-            Thread.sleep(1000);
-            btnCreateTask.click();
+            if (btnCreateTask.isDisplayed()) {
+                btnCreateTask.click();
+            } else {
+                btnTask.click();
+                Thread.sleep(500);
+                btnCreateTask.click();
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -2,34 +2,22 @@ package testcase.Plans;
 
 import org.openqa.selenium.WebDriver;
 
+import excelHelpers.excelhelpers;
 import page.indexPage;
 import page.Plans.createPlansPage;
 import setup.baseSetup;
 
 public class createPlansTest {
 
-    int testcase;
-    String title, description;
-
-    public createPlansTest(int testcase, String title, String description) {
-        this.testcase = testcase;
-        this.title = title;
-        this.description = description;
-    }
-
     public static void main(String[] args) {
         try {
-
-            createPlansTest[] data = {
-                    new createPlansTest(1, "fWorks: Prepare for Testing", "Đây là dự án cực kỳ quan trọng"),
-                    new createPlansTest(2, "", "Đây là dự án cực kỳ quan trọng"),
-                    new createPlansTest(3, "fWorks: Prepare for Testing Mobile", "Đây là dự án cực kỳ quan trọng"),
-            };
 
             baseSetup init = new baseSetup();
             WebDriver driver = init.initChromeDriver();
             indexPage index = new indexPage(driver);
             createPlansPage plans = new createPlansPage(driver);
+            excelhelpers excel = new excelhelpers();
+            excel.setExcelSheet("Create Plan");
 
             index.login();
 
@@ -43,13 +31,13 @@ public class createPlansTest {
             Thread.sleep(1000);
             plans.removeUser();
 
-            for (int i = 0; i < data.length; i++) {
+            for (int i = 1; i < 4; i++) {
 
                 System.out.println("====================");
 
-                System.out.println("Testcase: " + data[i].testcase);
-                plans.txtTitlePlans.sendKeys(data[i].title);
-                plans.txaDescription.sendKeys(data[i].description);
+                System.out.println("Testcase: " + excel.getCellData("TCID", i));
+                plans.txtTitlePlans.sendKeys(excel.getCellData("title", i));
+                plans.txaDescription.sendKeys(excel.getCellData("description", i));
                 plans.btnDone_plans.click();
                 Thread.sleep(1000);
 
@@ -72,7 +60,7 @@ public class createPlansTest {
 
                     default:
                         noti = index.tagline();
-                        if (noti.equals("Đã tạo kế hoạch: fWorks: Prepare for Testing Mobile")) {
+                        if (noti.equals("Đã tạo kế hoạch: " + excel.getCellData("title", 3))) {
                             System.out.println(noti);
                             index.passed();
                         } else {

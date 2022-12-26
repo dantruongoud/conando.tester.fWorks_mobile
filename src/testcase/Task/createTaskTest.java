@@ -2,41 +2,32 @@ package testcase.Task;
 
 import org.openqa.selenium.WebDriver;
 
+import excelHelpers.excelhelpers;
 import page.indexPage;
 import page.Task.TaskPage;
 import setup.baseSetup;
 
 public class createTaskTest {
-    int testcase;
-    String title;
-
-    public createTaskTest(int testcase, String title) {
-        this.testcase = testcase;
-        this.title = title;
-    }
+    
 
     public static void main(String[] args) {
         try {
-
-            createTaskTest[] data = {
-                    new createTaskTest(1, ""),
-                    new createTaskTest(2, "Thực thi automation đạt chuẩn"),
-            };
-            
             baseSetup init = new baseSetup();
             WebDriver driver = init.initChromeDriver();
             indexPage index = new indexPage(driver);
             TaskPage task = new TaskPage(driver);
+            excelhelpers excel = new excelhelpers();
+            excel.setExcelSheet("Task");
 
             index.navigationTo_Task();
 
             task.navigationFormTask();
 
-            for (int i = 0; i < data.length; i++) {
+            for (int i = 1; i < 3; i++) {
                 System.out.println("====================");
 
-                System.out.println("Testcase: " + data[i].testcase);
-                task.createTask(data[i].title);
+                System.out.println("Testcase: " + excel.getCellData("TCID", i));
+                task.createTask(excel.getCellData("title", i));
                 Thread.sleep(1000);
 
                 String noti = index.tagline();
@@ -46,7 +37,6 @@ public class createTaskTest {
                         index.passed();
                         break;
                     default:
-                        noti = index.tagline();
                         if (noti.equals("Đã thêm nhóm công việc!")) {
                             System.out.println(noti);
                             index.passed();
