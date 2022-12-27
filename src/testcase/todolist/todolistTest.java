@@ -30,6 +30,7 @@ public class todolistTest {
                 Thread.sleep(1000);
 
                 String noti = index.tagline();
+                // Các trường hợp test
                 switch (noti) {
                     case "Nhập tiêu đề của Todolist":
                         index.passed();
